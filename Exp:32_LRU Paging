@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+int main() {
+    int pages[] = {1,2,3,4,1,2,5};
+    int frame[3], time[3];
+    int i,j,k,frames=3,p=7,fault=0,counter=0,found,pos,min;
+
+    for(i=0;i<frames;i++){
+        frame[i] = -1;
+        time[i] = 0;
+    }
+
+    printf("\n-------------------------------------------------\n");
+    printf("| Page | Frame1 | Frame2 | Frame3 | Page Fault |\n");
+    printf("-------------------------------------------------\n");
+
+    for(i=0;i<p;i++){
+        found=0;
+
+        for(j=0;j<frames;j++){
+            if(frame[j]==pages[i]){
+                counter++;
+                time[j]=counter;
+                found=1;
+                break;
+            }
+        }
+
+        if(!found){
+            min=time[0]; pos=0;
+            for(j=1;j<frames;j++){
+                if(time[j]<min){
+                    min=time[j];
+                    pos=j;
+                }
+            }
+
+            frame[pos]=pages[i];
+            counter++;
+            time[pos]=counter;
+            fault++;
+        }
+
+        printf("|  %d   |   %d   |   %d   |   %d   |    %s     |\n",
+               pages[i],frame[0],frame[1],frame[2],
+               found?"No":"Yes");
+    }
+
+    printf("-------------------------------------------------\n");
+    printf("Total Page Faults = %d\n", fault);
+
+    return 0;
+}
