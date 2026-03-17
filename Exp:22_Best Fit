@@ -1,0 +1,48 @@
+#include <stdio.h>
+
+int main()
+{
+    int block[5] = {100, 500, 200, 300, 600};
+    int process[3] = {212, 417, 112};
+    int i, j, best;
+    int allocation[3];
+
+    for(i=0;i<3;i++)
+        allocation[i] = -1;
+
+    for(i=0;i<3;i++)
+    {
+        best = -1;
+
+        for(j=0;j<5;j++)
+        {
+            if(block[j] >= process[i])
+            {
+                if(best == -1 || block[j] < block[best])
+                    best = j;
+            }
+        }
+
+        if(best != -1)
+        {
+            allocation[i] = best;
+            block[best] -= process[i];
+        }
+    }
+
+    printf("---------------------------------------------\n");
+    printf("| Process | Size | Block Allocated |\n");
+    printf("---------------------------------------------\n");
+
+    for(i=0;i<3;i++)
+    {
+        if(allocation[i] != -1)
+            printf("|   P%d    | %3d |      B%d        |\n", i+1, process[i], allocation[i]+1);
+        else
+            printf("|   P%d    | %3d |   Not Allocated |\n", i+1, process[i]);
+    }
+
+    printf("---------------------------------------------\n");
+
+    return 0;
+}
