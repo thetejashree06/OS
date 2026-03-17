@@ -1,0 +1,43 @@
+#include <stdio.h>
+int mutex = 1;
+int shared = 0;
+
+void lock()
+{
+    mutex = 0;
+}
+
+void unlock()
+{
+    mutex = 1;
+}
+
+void process(int id)
+{
+    if(mutex == 1)
+    {
+        lock();
+        shared++;
+        printf("|   P%d   |   %d   |   Locked   |\n", id, shared);
+        unlock();
+    }
+    else
+    {
+        printf("|   P%d   |   %d   |   Waiting  |\n", id, shared);
+    }
+}
+
+int main()
+{
+    printf("-----------------------------------\n");
+    printf("| Process | Shared | Mutex State |\n");
+    printf("-----------------------------------\n");
+
+    process(1);
+    process(2);
+    process(3);
+
+    printf("-----------------------------------\n");
+
+    return 0;
+}
