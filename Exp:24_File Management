@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd;
+    char writeData[] = "Hello OS Lab";
+    char readData[50];
+
+    fd = open("sample.txt", O_CREAT | O_RDWR, 0777);
+
+    write(fd, writeData, sizeof(writeData));
+
+    lseek(fd, 0, SEEK_SET);  
+
+    read(fd, readData, sizeof(writeData));
+
+    close(fd);
+
+    printf("\nOperation\tSystem Call\tResult\n");
+    printf("-------------------------------------\n");
+    printf("Create/Open\topen()\t\tSuccess\n");
+    printf("Write File\twrite()\t\t%s\n", writeData);
+    printf("Read File\tread()\t\t%s\n", readData);
+    printf("Close File\tclose()\t\tSuccess\n");
+
+    return 0;
+}
