@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <pthread.h>
+
+void* func(void *arg)
+{
+    printf("| Thread   | Running       | Success |\n");
+    pthread_exit(NULL);   // exit
+}
+
+int main()
+{
+    pthread_t t1, t2;
+
+    printf("\n----------------------------------------\n");
+    printf("| Operation | Description   | Result   |\n");
+    printf("----------------------------------------\n");
+
+    // create
+    pthread_create(&t1, NULL, func, NULL);
+    printf("| create    | Thread t1     | Done     |\n");
+
+    pthread_create(&t2, NULL, func, NULL);
+    printf("| create    | Thread t2     | Done     |\n");
+
+    // equal
+    if(pthread_equal(t1, t2))
+        printf("| equal     | t1 == t2      | Yes      |\n");
+    else
+        printf("| equal     | t1 == t2      | No       |\n");
+
+    // join
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    printf("| join      | Wait threads  | Done     |\n");
+
+    printf("----------------------------------------\n");
+
+    return 0;
+}
