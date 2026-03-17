@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <dirent.h>
+
+int main() {
+    int fd;
+    struct stat fileStat;
+    DIR *d;
+    struct dirent *dir;
+
+    printf("\n-------------------------------------------\n");
+    printf("| System Call | Description | Result      |\n");
+    printf("-------------------------------------------\n");
+
+    // open file
+    fd = open("sample.txt", O_RDONLY);
+
+    // fcntl
+    int flags = fcntl(fd, F_GETFL);
+    printf("| fcntl       | Get Flags   | %d          |\n", flags);
+
+    // lseek
+    off_t pos = lseek(fd, 0, SEEK_CUR);
+    printf("| lseek       | File Offset | %ld         |\n", pos);
+
+    // stat
+    stat("sample.txt", &fileStat);
+    printf("| stat        | File Size   | %ld bytes   |\n", fileStat.st_size);
+
+    // opendir
+    d = opendir(".");
+    if (d)
+        printf("| opendir     | Open Dir    | Success     |\n");
+
+    // readdir
+    dir = readdir(d);
+    if (dir)
+        printf("| readdir     | First File  | %s         |\n", dir->d_name);
+
+    printf("-------------------------------------------\n");
+
+    close(fd);
+    closedir(d);
+
+    return 0;
+}
