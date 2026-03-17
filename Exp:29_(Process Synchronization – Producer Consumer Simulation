@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main() {
+    int buffer = 0, n = 5;
+
+    printf("\n-------------------------------------\n");
+    printf("| Step | Operation | Buffer Value   |\n");
+    printf("-------------------------------------\n");
+
+    for(int i = 1; i <= n; i++) {
+        // Producer
+        buffer++;
+        printf("| %-4d | Produce   | %-13d |\n", i, buffer);
+
+        // Consumer
+        buffer--;
+        printf("| %-4d | Consume   | %-13d |\n", i, buffer);
+    }
+
+    printf("-------------------------------------\n");
+
+    return 0;
+}
