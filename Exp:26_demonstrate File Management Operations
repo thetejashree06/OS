@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd;
+    char data[] = "Hello";
+    char buffer[20];
+
+    printf("\n-------------------------------------------\n");
+    printf("| Operation | Description      | Result   |\n");
+    printf("-------------------------------------------\n");
+
+    // Create file
+    fd = open("file.txt", O_CREAT | O_RDWR, 0777);
+    printf("| open      | Create File      | Success  |\n");
+
+    // Write to file
+    write(fd, data, sizeof(data));
+    printf("| write     | Write to File    | Done     |\n");
+
+    // Move pointer to beginning
+    lseek(fd, 0, SEEK_SET);
+
+    // Read file
+    read(fd, buffer, sizeof(data));
+    printf("| read      | Read from File   | %s       |\n", buffer);
+
+    // Close file
+    close(fd);
+    printf("| close     | Close File       | Done     |\n");
+
+    printf("-------------------------------------------\n");
+
+    return 0;
+}
