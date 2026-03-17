@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_USERS 5
+#define MAX_FILES 10
+
+struct Directory {
+    char user[20];
+    char files[MAX_FILES][20];
+    int fileCount;
+};
+
+int main() {
+    struct Directory dir[MAX_USERS];
+    int userCount = 0, choice;
+    char uname[20], fname[20];
+
+    while (1) {
+        printf("\n1.Create User  2.Create File  3.Display  4.Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+
+        case 1: // Create User
+            if (userCount >= MAX_USERS) {
+                printf("User limit reached!\n");
+                break;
+            }
+            printf("Enter user name: ");
+            scanf("%s", uname);
+            strcpy(dir[userCount].user, uname);
+            dir[userCount].fileCount = 0;
+            userCount++;
+
+            printf("\n+----------------+\n");
+            printf("| %-14s |\n", "User Created");
+            printf("+----------------+\n");
+            printf("| %-14s |\n", uname);
+            printf("+----------------+\n");
+            break;
+
+        case 2: // Create File
+            printf("Enter user name: ");
+            scanf("%s", uname);
+
+            for (int i = 0; i < userCount; i++) {
+                if (strcmp(dir[i].user, uname) == 0) {
+
+                    if (dir[i].fileCount >= MAX_FILES) {
+                        printf("File limit reached!\n");
+                        break;
+                    }
+
+                    printf("Enter file name: ");
+                    scanf("%s", fname);
+
+                    strcpy(dir[i].files[dir[i].fileCount], fname);
+                    dir[i].fileCount++;
+
+                    printf("\n+----------------+----------------+\n");
+                    printf("| %-14s | %-14s |\n", "User", "File Created");
+                    printf("+----------------+----------------+\n");
+                    printf("| %-14s | %-14s |\n", uname, fname);
+                    printf("+----------------+----------------+\n");
+                    break;
+                }
+            }
+            break;
+
+        case 3: // Display
+            printf("\n+----------------+----------------+\n");
+            printf("| %-14s | %-14s |\n", "User", "File Name");
+            printf("+----------------+----------------+\n");
+
+            for (int i = 0; i < userCount; i++) {
+                for (int j = 0; j < dir[i].fileCount; j++) {
+                    printf("| %-14s | %-14s |\n",
+                           dir[i].user, dir[i].files[j]);
+                }
+            }
+
+            printf("+----------------+----------------+\n");
+            break;
+
+        case 4:
+            return 0;
+
+        default:
+            printf("Invalid Choice!\n");
+        }
+    }
+
+    return 0;
+}
