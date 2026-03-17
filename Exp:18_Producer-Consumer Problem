@@ -1,0 +1,57 @@
+#include <stdio.h>
+int mutex = 1;
+int full = 0;
+int empty = 5;
+int item = 0;
+
+void producer()
+{
+    if(mutex==1 && empty>0)
+    {
+        mutex = 0;
+        item++;
+        full++;
+        empty--;
+
+        printf("| Produce |   %d   |     %d     |   %d   |  %d  |\n", item, item, empty, full);
+
+        mutex = 1;
+    }
+    else
+        printf("Buffer Full\n");
+}
+
+void consumer()
+{
+    if(mutex==1 && full>0)
+    {
+        mutex = 0;
+
+        printf("| Consume |   %d   |     %d     |   %d   |  %d  |\n", item, item-1, empty+1, full-1);
+
+        item--;
+        full--;
+        empty++;
+
+        mutex = 1;
+    }
+    else
+        printf("Buffer Empty\n");
+}
+
+int main()
+{
+    int i;
+
+    printf("-------------------------------------------------\n");
+    printf("| Action  | Item | Buffer Items | Empty | Full |\n");
+    printf("-------------------------------------------------\n");
+
+    producer();
+    producer();
+    consumer();
+
+    printf("-------------------------------------------------\n");
+
+    return 0;
+}
