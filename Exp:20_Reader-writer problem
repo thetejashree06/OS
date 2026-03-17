@@ -1,0 +1,54 @@
+#include <stdio.h>
+int mutex = 1;
+int wrt = 1;
+int readcount = 0;
+int data = 10;
+
+void reader(int id)
+{
+    mutex = 0;
+    readcount++;
+
+    if(readcount == 1)
+        wrt = 0;
+
+    mutex = 1;
+
+    printf("| Reader %d | Reading | Data = %d | Readers = %d |\n", id, data, readcount);
+
+    mutex = 0;
+    readcount--;
+
+    if(readcount == 0)
+        wrt = 1;
+
+    mutex = 1;
+}
+
+void writer(int id)
+{
+    if(wrt == 1)
+    {
+        wrt = 0;
+        data = data + 5;
+
+        printf("| Writer %d | Writing | Data = %d | Readers = %d |\n", id, data, readcount);
+
+        wrt = 1;
+    }
+}
+
+int main()
+{
+    printf("--------------------------------------------------\n");
+    printf("| Process  | Action  | Data Value | Readers Count |\n");
+    printf("--------------------------------------------------\n");
+
+    reader(1);
+    reader(2);
+    writer(1);
+
+    printf("--------------------------------------------------\n");
+
+    return 0;
+}
