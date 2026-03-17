@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <dirent.h>
+
+int main() {
+    DIR *d;
+    struct dirent *dir;
+    int i = 1;
+
+    d = opendir(".");
+
+    printf("\n---------------------------------\n");
+    printf("| No | File / Directory Name    |\n");
+    printf("---------------------------------\n");
+
+    if (d) {
+        while ((dir = readdir(d)) != NULL) {
+            printf("| %-2d | %-23s |\n", i++, dir->d_name);
+        }
+        closedir(d);
+    }
+
+    printf("---------------------------------\n");
+
+    return 0;
+}
